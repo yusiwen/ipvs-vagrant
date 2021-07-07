@@ -101,6 +101,36 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 192.168.66.0    0.0.0.0         255.255.255.0   U     0      0        0 enp0s8
 ```
 
+### cl0
+
+```bash
+vagrant@cl0:~$ curl http://192.168.55.100
+rs0
+vagrant@cl0:~$ curl http://192.168.55.100
+rs1
+vagrant@cl0:~$ curl http://192.168.55.100
+rs0
+vagrant@cl0:~$ curl http://192.168.55.100
+rs1
+vagrant@cl0:~$ curl http://192.168.55.100
+rs0
+vagrant@cl0:~$ curl http://192.168.55.100
+rs1
+```
+
+```bash
+vagrant halt rs1
+```
+
+```bash
+vagrant@cl0:~$ curl http://192.168.55.100
+rs0
+vagrant@cl0:~$ curl http://192.168.55.100
+rs0
+vagrant@cl0:~$ curl http://192.168.55.100
+rs0
+```
+
 ## ref
 
 - [LVS+Iptables实现FULLNAT及原理分析](https://blog.dianduidian.com/post/lvs-snat%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/)
