@@ -34,24 +34,26 @@ vagrant@lb0:~$ ip a
     inet6 ::1/128 scope host 
        valid_lft forever preferred_lft forever
 2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-    link/ether 02:81:82:93:e5:d9 brd ff:ff:ff:ff:ff:ff
+    link/ether 02:56:36:6f:95:58 brd ff:ff:ff:ff:ff:ff
     inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic enp0s3
-       valid_lft 58120sec preferred_lft 58120sec
-    inet6 fe80::81:82ff:fe93:e5d9/64 scope link 
+       valid_lft 85750sec preferred_lft 85750sec
+    inet6 fe80::56:36ff:fe6f:9558/64 scope link 
        valid_lft forever preferred_lft forever
 3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-    link/ether 08:00:27:fc:74:d9 brd ff:ff:ff:ff:ff:ff
+    link/ether 08:00:27:90:fd:43 brd ff:ff:ff:ff:ff:ff
     inet 192.168.66.11/24 brd 192.168.66.255 scope global enp0s8
+       valid_lft forever preferred_lft forever
+    inet 192.168.66.100/32 scope global enp0s8
        valid_lft forever preferred_lft forever
     inet 192.168.55.100/32 scope global enp0s8
        valid_lft forever preferred_lft forever
-    inet6 fe80::a00:27ff:fefc:74d9/64 scope link 
+    inet6 fe80::a00:27ff:fe90:fd43/64 scope link 
        valid_lft forever preferred_lft forever
 4: enp0s9: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-    link/ether 08:00:27:0f:c3:81 brd ff:ff:ff:ff:ff:ff
+    link/ether 08:00:27:9c:bb:05 brd ff:ff:ff:ff:ff:ff
     inet 192.168.55.11/24 brd 192.168.55.255 scope global enp0s9
        valid_lft forever preferred_lft forever
-    inet6 fe80::a00:27ff:fe0f:c381/64 scope link 
+    inet6 fe80::a00:27ff:fe9c:bb05/64 scope link 
        valid_lft forever preferred_lft forever
 ```
 
@@ -94,7 +96,7 @@ vagrant@rs0:~$ ip a
 vagrant@rs0:~$ route -n
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         192.168.66.11   0.0.0.0         UG    0      0        0 enp0s8
+0.0.0.0         192.168.66.100  0.0.0.0         UG    0      0        0 enp0s8
 0.0.0.0         10.0.2.2        0.0.0.0         UG    100    0        0 enp0s3
 10.0.2.0        0.0.0.0         255.255.255.0   U     0      0        0 enp0s3
 10.0.2.2        0.0.0.0         255.255.255.255 UH    100    0        0 enp0s3
@@ -129,6 +131,11 @@ vagrant@cl0:~$ curl http://192.168.55.100
 rs0
 vagrant@cl0:~$ curl http://192.168.55.100
 rs0
+```
+
+```bash
+## compulsively --provision for `route add default gw <GATEWAY>`
+vagrant up rs1 --provision
 ```
 
 ## ref
