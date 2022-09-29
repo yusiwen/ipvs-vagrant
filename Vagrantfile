@@ -14,6 +14,9 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   #config.vm.box = "base"
   config.vm.box_check_update = false
+  config.ssh.insert_key = false
+  # insecure_private_key download from https://github.com/hashicorp/vagrant/blob/master/keys/vagrant
+  config.ssh.private_key_path = "insecure_private_key"
 
   (0..1).each do |i|
     config.vm.define vm_name = "lb%d" % i do |lb|
