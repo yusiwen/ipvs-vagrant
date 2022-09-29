@@ -35,11 +35,12 @@ Vagrant.configure("2") do |config|
         #########################################################################
         echo "root:vagrant" | sudo chpasswd
         #########################################################################
-        sed -i "s@http://.*archive.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list && \
-        sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list;
-        apt update;
-        DEBIAN_FRONTEND=noninteractive apt -y upgrade;
-        DEBIAN_FRONTEND=noninteractive apt install -y curl ipvsadm ipset keepalived net-tools;
+        sed -i "s@archive.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list && \
+        sed -i "s@security.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list;
+        while [ true ]; do
+        DEBIAN_FRONTEND=noninteractive apt update && DEBIAN_FRONTEND=noninteractive apt -y upgrade && \
+        DEBIAN_FRONTEND=noninteractive apt install -y curl ipvsadm ipset keepalived net-tools && break
+        done
         #########################################################################
         cat > /etc/modules-load.d/000-net.conf<<EOF
 br_netfilter
@@ -146,7 +147,7 @@ virtual_server 192.168.55.100 80 {
 }
 __EOF
 
-
+sed -i "s|^DAEMON_ARGS.*|DAEMON_ARGS=\"--log-detail --log-console\"|g" /etc/default/keepalived && systemctl daemon-relad && systemctl enable --now keepalived
 
 
       SHELL
@@ -168,11 +169,12 @@ __EOF
         #########################################################################
         echo "root:vagrant" | sudo chpasswd
         #########################################################################
-        sed -i "s@http://.*archive.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list && \
-        sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list;
-        apt update;
-        DEBIAN_FRONTEND=noninteractive apt -y upgrade;
-        DEBIAN_FRONTEND=noninteractive apt install -y curl nginx net-tools;
+        sed -i "s@archive.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list && \
+        sed -i "s@security.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list;
+        while [ true ]; do
+        DEBIAN_FRONTEND=noninteractive apt update && DEBIAN_FRONTEND=noninteractive apt -y upgrade && \
+        DEBIAN_FRONTEND=noninteractive apt install -y curl nginx net-tools && break
+        done
         #route del default gw 10.0.2.2;
         route add default gw 192.168.66.100;
         #默认网关指向LVS的DIP，不是LVS提供服务的VIP
@@ -194,11 +196,12 @@ __EOF
         #########################################################################
         echo "root:vagrant" | sudo chpasswd
         #########################################################################
-        sed -i "s@http://.*archive.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list && \
-        sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list;
-        apt update;
-        DEBIAN_FRONTEND=noninteractive apt -y upgrade;
-        DEBIAN_FRONTEND=noninteractive apt install -y net-tools;
+        sed -i "s@archive.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list && \
+        sed -i "s@security.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list;
+        while [ true ]; do
+        DEBIAN_FRONTEND=noninteractive apt update && DEBIAN_FRONTEND=noninteractive apt -y upgrade && \
+        DEBIAN_FRONTEND=noninteractive apt install -y curl net-tools && break
+        done
       SHELL
     end
   end
