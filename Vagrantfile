@@ -147,7 +147,7 @@ virtual_server 192.168.55.100 80 {
 }
 __EOF
 
-sed -i "s|^DAEMON_ARGS.*|DAEMON_ARGS=\"--log-detail --log-console\"|g" /etc/default/keepalived && systemctl daemon-relad && systemctl enable --now keepalived
+sed -i "s|^DAEMON_ARGS.*|DAEMON_ARGS=\\"--log-detail --log-console\\"|g" /etc/default/keepalived && systemctl daemon-relad && systemctl enable --now keepalived
 
 
       SHELL
