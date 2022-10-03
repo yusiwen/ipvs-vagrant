@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  #config.vm.box = "base"
+  config.vm.box = "ubuntu/focal64"
   config.vm.box_check_update = false
   config.ssh.insert_key = false
   # insecure_private_key download from https://github.com/hashicorp/vagrant/blob/master/keys/vagrant
@@ -21,24 +21,22 @@ Vagrant.configure("2") do |config|
   (0..1).each do |i|
     config.vm.define vm_name = "lb%d" % i do |lb|
       lb.vm.hostname = vm_name
-      lb.vm.box = "ubuntu/focal64"
       lb.vm.network :private_network, ip: "192.168.66.#{i+11}"
       lb.vm.network :private_network, ip: "192.168.55.#{i+11}"
       lb.vm.network "forwarded_port", guest: 80, host: "#{64001+i}"
       lb.vm.provider "virtualbox" do |vb|
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         vb.customize ["modifyvm", :id, "--ioapic", "on"]
-        vb.memory = "2048"
-        vb.cpus = 2
+        vb.memory = "512"
+        vb.cpus = 1
       end
       lb.vm.provision "shell", inline: <<-SHELL
         #########################################################################
         echo "root:vagrant" | sudo chpasswd
         #########################################################################
-        sed -i "s@archive.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list && \
-        sed -i "s@security.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list;
+        sed -i.bak -e "s@archive.ubuntu.com@mirrors.ustc.edu.cn@g" -e "s@security.ubuntu.com@mirrors.ustc.edu.cn@g" /etc/apt/sources.list;
         while [ true ]; do
-        DEBIAN_FRONTEND=noninteractive apt update && DEBIAN_FRONTEND=noninteractive apt -y upgrade && \
+        DEBIAN_FRONTEND=noninteractive apt update;
         DEBIAN_FRONTEND=noninteractive apt install -y curl ipvsadm ipset keepalived net-tools && break
         done
         #########################################################################
@@ -158,21 +156,19 @@ sed -i "s|^DAEMON_ARGS.*|DAEMON_ARGS=\\"--log-detail --log-console\\"|g" /etc/de
   (0..1).each do |i|
     config.vm.define vm_name = "rs%d" % i do |rs|
       rs.vm.hostname = vm_name
-      rs.vm.box = "ubuntu/focal64"
       rs.vm.network :private_network, ip: "192.168.66.#{i+111}"
       rs.vm.network "forwarded_port", guest: 80, host: "#{64011+i}"
       rs.vm.provider "virtualbox" do |vb|
-        vb.memory = "1024"
-        vb.cpus = 2
+        vb.memory = "512"
+        vb.cpus = 1
       end
       rs.vm.provision "shell", inline: <<-SHELL
         #########################################################################
         echo "root:vagrant" | sudo chpasswd
         #########################################################################
-        sed -i "s@archive.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list && \
-        sed -i "s@security.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list;
+        sed -i.bak -e "s@archive.ubuntu.com@mirrors.ustc.edu.cn@g" -e "s@security.ubuntu.com@mirrors.ustc.edu.cn@g" /etc/apt/sources.list;
         while [ true ]; do
-        DEBIAN_FRONTEND=noninteractive apt update && DEBIAN_FRONTEND=noninteractive apt -y upgrade && \
+        DEBIAN_FRONTEND=noninteractive apt update;
         DEBIAN_FRONTEND=noninteractive apt install -y curl nginx net-tools && break
         done
         #route del default gw 10.0.2.2;
@@ -186,20 +182,18 @@ sed -i "s|^DAEMON_ARGS.*|DAEMON_ARGS=\\"--log-detail --log-console\\"|g" /etc/de
   (0..1).each do |i|
     config.vm.define vm_name = "cl%d" % i do |rs|
       rs.vm.hostname = vm_name
-      rs.vm.box = "ubuntu/focal64"
       rs.vm.network :private_network, ip: "192.168.55.#{i+200}"
       rs.vm.provider "virtualbox" do |vb|
-        vb.memory = "1024"
-        vb.cpus = 2
+        vb.memory = "512"
+        vb.cpus = 1
       end
       rs.vm.provision "shell", inline: <<-SHELL
         #########################################################################
         echo "root:vagrant" | sudo chpasswd
         #########################################################################
-        sed -i "s@archive.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list && \
-        sed -i "s@security.ubuntu.com@repo.huaweicloud.com@g" /etc/apt/sources.list;
+        sed -i.bak -e "s@archive.ubuntu.com@mirrors.ustc.edu.cn@g" -e "s@security.ubuntu.com@mirrors.ustc.edu.cn@g" /etc/apt/sources.list;
         while [ true ]; do
-        DEBIAN_FRONTEND=noninteractive apt update && DEBIAN_FRONTEND=noninteractive apt -y upgrade && \
+        DEBIAN_FRONTEND=noninteractive apt update;
         DEBIAN_FRONTEND=noninteractive apt install -y curl net-tools && break
         done
       SHELL
