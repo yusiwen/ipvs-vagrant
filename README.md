@@ -142,3 +142,5 @@ vagrant up rs1 --provision
 
 - [LVS+Iptables实现FULLNAT及原理分析](https://blog.dianduidian.com/post/lvs-snat%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/)
 - [LVS-NAT 原理介绍和配置实践](https://wsgzao.github.io/post/lvs-nat/)
+- [lvs负载均衡-NAT与DR模型原理介绍](https://www.guaosi.com/2020/01/22/lvs-introduction-to-the-principle-of-NAT-and-DR-model/)
+- [LVS NAT](http://soft.dog/2018/06/04/lvs-nat/)
