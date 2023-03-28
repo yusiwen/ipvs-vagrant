@@ -65,6 +65,7 @@ net.ipv4.tcp_keepalive_probes = 10
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
+sysctl --system
 
         cat > /etc/keepalived/keepalived.conf <<__EOF 
 global_defs {
