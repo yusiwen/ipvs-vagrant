@@ -96,7 +96,7 @@ vrrp_instance VI_1 {
 
 vrrp_instance VI_GATEWAY {
     state BACKUP
-    interface enp0s8
+    interface enp0s9
     garp_master_delay 10
     smtp_alert
     virtual_router_id 52
